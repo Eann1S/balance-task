@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Balance API
+  version: 1.0.0
+  description: API для управления балансом пользователей
+servers:
+  - url: http://localhost:3000
+    description: Development server
+paths:
+  /api/update-balance:
+    patch:
+      tags:
+        - Balance
+      summary: Обновление баланса пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBalanceRequest'
+      responses:
+        '200':
+          description: Успешное обновление баланса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '400':
+          description: Недостаточно средств
+        '404':
+          description: Пользователь не найден
+components:
+  schemas:
+    UpdateBalanceRequest:
+      type: object
+      required:
+        - userId
+        - amount
+      properties:
+        userId:
+          type: integer
+          example: 1
+        amount:
+          type: integer
+          example: -2
+    BalanceResponse:
+      type: object
+      properties:
+        balance:
+          type: integer
+          example: 9998 
